@@ -1,0 +1,18 @@
+{
+  "author": "Stephen Blankenship",
+  "name": "state_machine",
+  "description": "A simple state machine written in CoffeeScript.",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephenb/state_machine.git"
+  },
+  "scripts": {
+    "test": "cake test"
+  },
+  "engines": {
+    "node": "~v0.4.7"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
