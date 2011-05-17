@@ -1,0 +1,73 @@
+root = exports ? window
+
+# new StateMachine
+#   states:
+#     stateName: 
+#       active:  true/false (optional, the 1st state defaults to true)
+#       onEnter: enterMethod (called when successfully entering the state)
+#       onExit:  exitMethod (called when successfully exiting the state)
+#       guard:   guardMethod (stops the change to this state if returns false)
+#   events:
+#     eventName:
+#       from: fromState (should be a defined state, or "any")
+#       to:   toState (should be a defined state)
+#   onStateChange: changeMethod (called on any state change)
+#
+root.StateMachine = class StateMachine
+
+  constructor: (@stateMachine = {}) ->
+    # If array setup was used, translate it into the object setup
+    if @stateMachine.states.constructor.toString().indexOf('Array') isnt -1
+      states = @stateMachine.states
+      @stateMachine.states = {}
+      for state in states
+        @stateMachine.states[state] = { active: (state == states[0]) }
+    
+    # Make sure an active state is properly set
+    activeStates = (state for own state, stateDef of @stateMachine.states when stateDef.active)
+    if activeStates.length is 0
+      # Set the 1st state to active
+      for own state, stateDef of @stateMachine.states
+        stateDef.active = true
+        break
+    else if activeStates.length > 1
+      # Set only the 1st active state to active
+      for own state in activeStates
+        continue if state is activeStates[0]
+        stateDef.active = false
+    
+    # Define the event methods
+    for event, eventDef of @stateMachine.events
+      do(event, eventDef) =>
+        this[event] = -> this.changeState(eventDef.from, eventDef.to)
+    
+  currentState: ->
+    (state for own state, stateDef of @stateMachine.states when stateDef.active)[0]
+
+  availableStates: ->
+    state for own state of @stateMachine.states
+    
+  availableEvents: ->
+    event for own event of @stateMachine.events
+    
+  changeState: (from, to) ->
+    fromStateDef = @stateMachine.states[from]
+    toStateDef = @stateMachine.states[to]
+    
+    throw "Cannot change to state '#{to}'; it is undefined!" if toStateDef is undefined
+    {onEnter: enterMethod, guard: guardMethod} = toStateDef
+    
+    unless from == 'any'
+      throw "Cannot change from state '#{from}'; it is undefined!" if fromStateDef is undefined
+      throw "Cannot change from state '#{from}'; it is not the active state!" if fromStateDef.active isnt true
+    
+    # If using 'any', then set the from to whatever the current state is
+    if from == 'any' then fromStateDef = @stateMachine.states[this.currentState()]
+    {onExit: exitMethod} = fromStateDef
+    
+    return false if guardMethod isnt undefined and guardMethod.call() is false
+    exitMethod.call() if exitMethod isnt undefined
+    enterMethod.call() if enterMethod isnt undefined
+    @stateMachine.onStateChange.call() if @stateMachine.onStateChange isnt undefined
+    fromStateDef.active = false
+    toStateDef.active = true
