@@ -6,7 +6,7 @@ A simple state machine written in CoffeeScript.
 Installation:
 -------------
 
-npm install coffee-machine
+    npm install coffee-machine
 
 Usage:
 ------
