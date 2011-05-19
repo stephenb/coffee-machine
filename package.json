@@ -7,12 +7,16 @@
     "type": "git",
     "url": "git://github.com/stephenb/state_machine.git"
   },
+  "main": "./lib/state_machine",
   "scripts": {
     "test": "cake test"
   },
   "engines": {
-    "node": "~v0.4.7"
+    "node": ">=v0.4.7"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": { 
+    "vows": ">=v0.5.8",
+    "coffee-script": ">=v1.1.1"
+  }
 }
