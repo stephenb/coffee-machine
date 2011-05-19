@@ -3,7 +3,12 @@ Description:
 
 A simple state machine written in CoffeeScript.
 
-Sample Usage:
+Installation:
+-------------
+
+npm install coffee-machine
+
+Usage:
 ------
 
 A "CoffeeMachine" class is provided that can be used as the basis of your state machine implementation.

@@ -5,7 +5,7 @@
   "version": "0.0.2",
   "repository": {
     "type": "git",
-    "url": "git://github.com/stephenb/state_machine.git"
+    "url": "git://github.com/stephenb/coffee-machine.git"
   },
   "main": "./lib/coffee_machine",
   "scripts": {
