@@ -52,24 +52,23 @@ root.CoffeeMachine = class CoffeeMachine
     event for own event of @stateMachine.events
     
   changeState: (from, to, event=null) ->
+    # If from is an array, and it contains the currentState, set from to currentState
     if from.constructor.toString().indexOf('Array') isnt -1
       if from.indexOf(this.currentState()) isnt -1
         from = this.currentState()
       else
         throw "Cannot change from states #{from.join(' or ')}; none are the active state!"
+    # If using 'any', then set the from to whatever the current state is
+    if from is 'any' then from = this.currentState()
     
     fromStateDef = @stateMachine.states[from]
     toStateDef = @stateMachine.states[to]
     
     throw "Cannot change to state '#{to}'; it is undefined!" if toStateDef is undefined
+    throw "Cannot change from state '#{from}'; it is undefined!" if fromStateDef is undefined
+    throw "Cannot change from state '#{from}'; it is not the active state!" if fromStateDef.active isnt true
+    
     {onEnter: enterMethod, guard: guardMethod} = toStateDef
-    
-    unless from == 'any'
-      throw "Cannot change from state '#{from}'; it is undefined!" if fromStateDef is undefined
-      throw "Cannot change from state '#{from}'; it is not the active state!" if fromStateDef.active isnt true
-    
-    # If using 'any', then set the from to whatever the current state is
-    if from == 'any' then fromStateDef = @stateMachine.states[this.currentState()]
     {onExit: exitMethod} = fromStateDef
     
     args = {from: from, to: to, event: event}
