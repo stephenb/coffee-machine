@@ -8,5 +8,5 @@ task 'build', 'Build project from src/*.coffee to lib/*.js', ->
     console.log "build complete. #{stdout} #{stderr}"
 
 task 'test', 'Runs vowsjs test suite', ->
-  exec './node_modules/vows/bin/vows test/test_state_machine.coffee --spec', (error, stdout, stderr) ->
+  exec './node_modules/vows/bin/vows test/test_coffee_machine.coffee --spec', (error, stdout, stderr) ->
     console.log stdout

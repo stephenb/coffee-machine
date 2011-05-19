@@ -6,15 +6,15 @@ A simple state machine written in CoffeeScript.
 Sample Usage:
 ------
 
-A "StateMachine" class is provided that can be used as the basis of your state machine implementation.
+A "CoffeeMachine" class is provided that can be used as the basis of your state machine implementation.
 The object passed in to the constructor has an expected format that will define the state machine. 
 The sample stuff below will use a chess game as a basic example.
 
 Step one will always be to require the state machine:
 
-    {StateMachine} = require 'state_machine'
+    {CoffeeMachine} = require 'coffee_machine'
 
-The StateMachine class' constructor takes in an object that defines the entire state machine.
+The CoffeeMachine class' constructor takes in an object that defines the entire state machine.
 Here's what it looks like:
 
     states:
@@ -33,7 +33,7 @@ Here's what it looks like:
 
 If you don't need anything fancy on the states, then you can use a basic Array setup:
       
-      game = new StateMachine states: ['whiteToMove', 'blackToMove']
+      game = new CoffeeMachine states: ['whiteToMove', 'blackToMove']
       
       game.availableStates() 
       # outputs: [ 'whiteToMove', 'blackToMove' ]
@@ -43,7 +43,7 @@ If you don't need anything fancy on the states, then you can use a basic Array s
 But, you should really define some *events* that will trigger state changes. Each 
 defined event gives you a method you can call to trigger the state change.
 
-      class ChessGame extends StateMachine
+      class ChessGame extends CoffeeMachine
         switchSides: ->
           # ...
           console.log "switchSides called."
@@ -61,10 +61,10 @@ defined event gives you a method you can call to trigger the state change.
       game.whiteMoved()
       # outputs: switchSides called.
 
-You can also pass the states definition to the defineStateMachine method. So, a more custom 
+You can also pass the states definition to the defineCoffeeMachine method. So, a more custom 
 and comprehensive implementation may look like:
 
-    class ChessGame extends StateMachine
+    class ChessGame extends CoffeeMachine
       constructor: (@board, @pieces) ->
         @defineStateMachine
           states:
@@ -148,3 +148,7 @@ Note that each callback method (onEnter, onExit, guard, and onStateChange) gets 
 has a "from", "to", and "event" key, providing the previous state, new state, and the 
 event that triggered the state change.
 
+Tests
+------
+    cake test
+    

@@ -1,11 +1,11 @@
 vows   = require 'vows'
 assert = require 'assert'
-{StateMachine} = require '../src/state_machine'
+{CoffeeMachine} = require '../src/coffee_machine'
 
-vow = vows.describe('StateMachine')
+vow = vows.describe('CoffeeMachine')
 vow.addBatch
   'State setup using an array':
-    topic: new StateMachine {
+    topic: new CoffeeMachine {
       states: ['state1', 'state2', 'state3']
     }
     
@@ -27,7 +27,7 @@ vow.addBatch
 
 vow.addBatch
   'State setup using full object':
-    topic: new StateMachine
+    topic: new CoffeeMachine
       states:
         state1:
           onEnter: -> 'onEnter state1'
@@ -61,7 +61,7 @@ vow.addBatch
 vow.addBatch
   'onExit':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states:
           state1: 
             onExit: -> throw 'onExitCalled'
@@ -78,7 +78,7 @@ vow.addBatch
         
   'onEnter':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states:
           state1: {}
           state2:
@@ -95,7 +95,7 @@ vow.addBatch
         
   'guard':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states:
           state1: {}
           state2:
@@ -110,7 +110,7 @@ vow.addBatch
 
   'onStatechange':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states:
           state1: {}
           state2: {}
@@ -127,7 +127,7 @@ vow.addBatch
     
   'Callbacks should contain state and event info':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states:
           state1:
             onExit: (args) -> this.returnedArgs = args
@@ -159,7 +159,7 @@ vow.addBatch
 vow.addBatch
   'Events':
     topic: ->
-      new StateMachine
+      new CoffeeMachine
         states: ['state1', 'state2', 'state3']
         events:
           state1to2: {from:'state1', to:'state2'}

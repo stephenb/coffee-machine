@@ -1,6 +1,6 @@
 root = exports ? window
 
-# new StateMachine
+# new CoffeeMachine
 #   states:
 #     stateName: 
 #       active:  true/false (optional, the 1st state defaults to true)
@@ -13,7 +13,7 @@ root = exports ? window
 #       to:   toState (should be a defined state)
 #   onStateChange: changeMethod (called on any state change)
 #
-root.StateMachine = class StateMachine
+root.CoffeeMachine = class CoffeeMachine
 
   constructor: (@stateMachine = {states:{}, events:{}}) ->
     this.defineStateMachine(@stateMachine)
